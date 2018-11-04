@@ -1,0 +1,14 @@
+
+运行edfread.py 根据原始的.edf文件 得到每个患者的发作时期和未发作时期的.npy文件以及label.文件存储在:
+/data/home/yangsh/EEG_CHBMIT_NN/raw_fine_tune_slice
+/data/home/yangsh/EEG_CHBMIT_NN/raw_fine_tune_slide
+/data/home/yangsh/EEG_CHBMIT_NN/raw_slice_1_s
+/data/home/yangsh/EEG_CHBMIT_NN/raw_slide_3
+
+运行convert_to_cnn_data.py,生成image数据，文件存储在
+/data/home/yangsh/EEG_CHBMIT_NN/image_slide_3
+/data/home/yangsh/EEG_CHBMIT_NN/image_slice_1_s
+
+运行combine_data.py,生成LOPO_image数据（例如：chb01中 train数据集是不包含chb01患者的其他人的数据，val数据集是包含chb01患者的数据），文件存储在
+/data/home/yangsh/EEG_CHBMIT_NN/LOPO_image_slice_1_s
+/data/home/yangsh/EEG_CHBMIT_NN/LOPO_image_slide_3
