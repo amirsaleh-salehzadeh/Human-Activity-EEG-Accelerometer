@@ -100,20 +100,25 @@ def get_data(fp, labels, folders):
     eeg = pd.read_csv(filepath_or_buffer=fp, sep=',', dtype='float',
                         names=["EEG1", "EEG2", "Acc_X", "Acc_Y", "Acc_Z"],
                         header=None, skiprows=1)
-    eeg = eeg[:2000]
     rng = pd.date_range('00:00:00', periods=len(eeg), freq='5L')
     eeg = eeg.set_index(rng)
     eeg = eeg.resample('5ms')
     eeg = eeg.fillna(method='ffill')
     fig, (ax1, ax2) = plt.subplots(1,2,figsize=(12,4))
-    xfmt = md.DateFormatter('%M:%S')
+    xfmt = md.DateFormatter('%S')
     ax1.xaxis.set_major_formatter(xfmt)
     ax1.xaxis_date()
-    ax1.plot(eeg.index, eeg.EEG1); ax1.set_title('Raw EEG')
-    ax2.specgram(eeg['EEG1'], Fs=200, NFFT=128, cmap=plt.get_cmap('Spectral_r'), noverlap=127)
+    ax1.plot(eeg.index, eeg.EEG1, linewidth=0.5)
+    ax1.set_title('Raw EEG')
+    ax1.set_ylabel('Voltage (mV)')
+    ax1.set_xlabel('Time (s)')
+    
+    pxx,  freq, t, cax = ax2.specgram(eeg['EEG1'], Fs=100, NFFT=128, cmap=plt.get_cmap('jet'), noverlap=127)
     ax2.set_title('Spectrogram')
-    ax2.set_ylabel('Freq (Hz)');
-    ax2.set_xlabel('Time (s)');
+    ax2.set_ylabel('Freq (Hz)')
+    ax2.set_xlabel('Time (s)')
+    cbar = fig.colorbar(cax)
+    cbar.ax.set_xlabel('dB', rotation=0)
     plt.show()
 
 
